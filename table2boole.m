@@ -57,9 +57,8 @@ function output = table2boole(input)
      qmtable(:,variables+2)=[]; # three columns. I'll optimize later
      qmtable(:,variables+1)=[]; # if it ever becomes a problem.
      qmtable(:,variables+1)=[]; # Otherwise, I don't care.
-     output = qmtable;
+     output = sortrows(qmtable);
    endif
    clear('truetable');
    truetable = qmtable;
  endwhile
-
