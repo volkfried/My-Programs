@@ -1,7 +1,6 @@
 function output = ServiceTime()
   pkg load io;
   pkg load statistics;
-  chk_spreadsheet_support ('', 0, '/usr/lib64/libreoffice');  # Modify this line if using Windows
   store = "PAP000," # Modify this line with correct store number; EX: "PAP001,", "PAP002,", "PAP003,",... etc. Do not truncate the comma!
 
   # Opens the Service Duration report file, and assigns it the file ID FID
