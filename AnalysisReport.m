@@ -95,7 +95,8 @@ function output = AnalysisReport()
       water{customers,1} = raw{row,1};
       water{customers,2} = raw{row,2};
     elseif(not(strcmp(raw{row,2}, raw{newcustrow,2})))
-        water{customers,2} = cstrcat(raw{newcustrow,2},", ",raw{row,2});
+        water{customers,2} = cstrcat(water{customers,2},", ",raw{row,2});
+        newcustrow = row;
     endif
   endfor
 
