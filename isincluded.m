@@ -1,11 +1,9 @@
-function output = isincluded(input, table)
-  rows = size(table,2);
+function output = isincluded(string, matrix)
   found = false;
-  for check = 1:rows
-    if (strcmp(input,table(check)))
+  for check = 1:numel(matrix)
+    if strcmp(string, matrix{check})
       found = check;
       break;
     endif
   endfor
   output = found;
-
