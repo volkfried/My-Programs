@@ -3,8 +3,12 @@
 # (Fahrenheit). If the temperature is missing, it is assumed to be 75F. If the
 # TDS is missing, it is assumed to be 1000ppm. Method used based on
 # Dr. Robert W. Lowry's work "Pool Chemistry for Residential Pools"
-# (ISBN 9781694504982), pages 81-82. Outputs tested for #accuracy against
+# (ISBN 9781694504982), pages 81-82. Outputs tested for accuracy against
 # sensible chemical levels.
+#
+# Cyanuric acid correction for carbonate alkalinity is an approximation. Most
+# LSI calculators do not correct for CYA at all, so even an approximate
+# correction is an improvement. For a more accurate LSI calculator, use Orenda.
 #
 # Pool chemistry should be maintained by a licensed profesional, in compliance
 # with all applicable laws and regulations.
