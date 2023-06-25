@@ -4,6 +4,8 @@
 # each customer based on the recorded readings. Function then estimates the
 # concentration of hypochlorous acid based on these readings, and sorts the
 # pools from low to high based on this concentration.
+#
+# Requires HOCL.m, isincluded.m, LSI.m, and nanmean.m files. 
 
 function output = AnalysisReport()
   pkg load io;
@@ -72,10 +74,15 @@ function output = AnalysisReport()
   fclose(FID);
 
   # Identifies the index location (which column) the following labels are in,
-  # so that they can be used later to calculate HOCl concentration.
+  # so that they can be used later to calculate HOCl concentration and the LSI.
   CHLOR = 2 + find(strcmp(labels, "FREE CHLORINE BROMINE "));
   PH = 2 + find(strcmp(labels, "PH "));
+  TA = 2 + find(strcmp(labels, "TOTAL ALKALINITY "));
+  CAL = 2 + find(strcmp(labels, "CALCIUM HARDNESS "));
   STAB = 2 + find(strcmp(labels, "STABILIZER "));
+  SALT = 2 + find(strcmp(labels, "SALT "));
+
+  # function LSI = LSI(PH, TA, CAL, CYA, TDS, F)
 
   disp("Sorting information by service customer.");
   raw = sortrows(raw, [1,2]);
@@ -100,9 +107,7 @@ function output = AnalysisReport()
     endif
   endfor
 
-  xlswrite("raw.xlsx", raw);
-
-  # Populates water table with aggregated test results
+  # Populates water table (HOCL_REPORT.xlsx) with aggregated test results
   disp("Aggregating water test results. This may take a while.");
 
   skiptoline = 1;
@@ -130,12 +135,12 @@ function output = AnalysisReport()
 
   for customer = 1:customers
     water{customer,3+QTY} = round(HOCL(water{customer,CHLOR}, water{customer,PH}, water{customer,STAB})*1000)/1000;
+    water{customer,4+QTY} = round(LSI(water{customer,PH}, water{customer,TA}, water{customer,CAL}, water{customer,STAB}, water{customer,SALT}, NaN)*100)/100;
   endfor
 
-  #header = ["CUSTOMER","TECHNICIAN(S)", labels, "HOCL CONCENTRATION"];
-  header = ["CUSTOMER","TECHNICIAN(S)","HOCL CONCENTRATION", labels];
-  water = [water(:,1:2) water(:,3+QTY) water(:,3:(2+QTY))];
+  header = ["CUSTOMER","TECHNICIAN(S)","HOCL CONCENTRATION", "LSI", labels];
+  water = [water(:,1:2) water(:,(3+QTY):(4+QTY)) water(:,3:(2+QTY))];
   water = sortrows(water,3);
   water = [header; water];
-  xlswrite("water.xlsx", water);
+  xlswrite("ANALYSIS_REPORT.xlsx", water);
   output = water;
