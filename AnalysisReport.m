@@ -3,9 +3,10 @@
 # Function reads "Water Analysis.txt" and determines the average chemistry for
 # each customer based on the recorded readings. Function then estimates the
 # concentration of hypochlorous acid based on these readings, and sorts the
-# pools from low to high based on this concentration.
+# pools from low to high based on this concentration. Function also calculates
+# the LSI.
 #
-# Requires HOCL.m, isincluded.m, LSI.m, and nanmean.m files. 
+# Requires HOCL.m, isincluded.m, LSI.m, and nanmean.m files.
 
 function output = AnalysisReport()
   pkg load io;
@@ -73,6 +74,8 @@ function output = AnalysisReport()
   disp("Closing 'Water Analysis.txt'.");
   fclose(FID);
 
+  xlswrite("RAW.xlsx", raw); # date of sample is in column 5
+
   # Identifies the index location (which column) the following labels are in,
   # so that they can be used later to calculate HOCl concentration and the LSI.
   CHLOR = 2 + find(strcmp(labels, "FREE CHLORINE BROMINE "));
@@ -125,6 +128,10 @@ function output = AnalysisReport()
         endfor
       else                                            # Else, since this means a new customer is being examined,
         for datum = 1:QTY                             # for each label, scan for data
+
+          # water{customer,2+datum} = round(runavg(aggregate, datestr2vec(DATES HERE), 7)(datum)*10)/10;
+
+
           water{customer,2+datum} = round(nanmean(aggregate,1)(datum)*10)/10;
         endfor
         skiptoline = rawcheck;                        # update the starting line, and

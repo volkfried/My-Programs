@@ -7,3 +7,4 @@ function output = isincluded(string, matrix)
     endif
   endfor
   output = found;
+

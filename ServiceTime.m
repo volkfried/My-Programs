@@ -1,7 +1,7 @@
 function output = ServiceTime()
   pkg load io;
   pkg load statistics;
-  store = "PAP000," # Modify this line with correct store number; EX: "PAP001,", "PAP002,", "PAP003,",... etc. Do not truncate the comma!
+  store = "PAP056," # Modify this line with correct store number; EX: "PAP001,", "PAP002,", "PAP003,",... etc. Do not truncate the comma!
 
   # Opens the Service Duration report file, and assigns it the file ID FID
   disp("Opening 'Service Duration.txt'.");
